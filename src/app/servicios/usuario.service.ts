@@ -22,6 +22,11 @@ export class UsuarioService {
     return this.http.get(this.url + 'paisesList');
   }
 
+
+  getCategorias() {
+    return this.http.get(this.url + 'categoriasList');
+  }
+
   buscarUsuario(buscar:string) {
     return this.http.get(this.url + 'buscar/' + buscar);
   }

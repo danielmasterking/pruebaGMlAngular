@@ -32,6 +32,7 @@ interface responseApi{
   code: number;
   errors?:Array<string>;
   mensaje?:string;
+  data?:Array<any>
 }
 
 @Component({
@@ -44,7 +45,7 @@ export class UsuarioComponent implements OnInit {
   usuarioList:ListUsuarios[];
   paises:Array<any>;
   categoriasList:Categorias[];
-  paisesList:Array<string>;
+  paisesList:Array<any>;
   inputBuscar:string;
   usuarioData:ListUsuarios;
   idUsusario:number;
@@ -77,9 +78,10 @@ export class UsuarioComponent implements OnInit {
     private usuarioServicio: UsuarioService,
     private fb: FormBuilder
   ) {
-    this.getUsuarios()
-    this.getPaises()
 
+    this.getPaises()
+    this.getCategorias()
+    this.getUsuarios()
   }
 
   ngOnInit(): void {
@@ -95,10 +97,18 @@ export class UsuarioComponent implements OnInit {
   }
 
   getPaises(){
-    this.usuarioServicio.getPaises().subscribe((result:Array<string>) =>{
-      this.paises = result;
+    this.usuarioServicio.getPaises().subscribe((result:responseApi) =>{
+      this.paises = result.data;
 
       console.log('paises' , this.paises)
+    });
+  }
+
+  getCategorias(){
+    this.usuarioServicio.getCategorias().subscribe((result:Array<Categorias>) =>{
+      this.categoriasList = result;
+
+      console.log('Categorias' , this.categoriasList)
     });
   }
 
