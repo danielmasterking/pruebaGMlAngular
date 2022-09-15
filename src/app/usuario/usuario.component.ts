@@ -98,9 +98,9 @@ export class UsuarioComponent implements OnInit {
 
   getPaises(){
     this.usuarioServicio.getPaises().subscribe((result:responseApi) =>{
-      this.paises = result.data;
+      this.paisesList = result.data;
 
-      console.log('paises' , this.paises)
+      console.log('paises' , this.paisesList)
     });
   }
 
