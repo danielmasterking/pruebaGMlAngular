@@ -36,7 +36,7 @@ export class UsuarioService {
   }
 
   actualizar(datos:object,id:number){
-    return this.http.post(this.url + 'usuario/' + id, datos);
+    return this.http.put(this.url + 'usuario/' + id, datos);
   }
 
   eliminar(id:number) {

@@ -178,6 +178,15 @@ export class UsuarioComponent implements OnInit {
     this.usuarioServicio.getUsuarioId(id).subscribe((result:ListUsuarios) =>{
       this.usuarioData = result;
       console.log("nombe del usuario" , this.usuarioData.nombres)
+      this.formUpdate.controls['nombres'].setValue(this.usuarioData.nombres);
+      this.formUpdate.controls['apellidos'].setValue(this.usuarioData.apellidos);
+      this.formUpdate.controls['pais'].setValue(this.usuarioData.pais);
+      this.formUpdate.controls['email'].setValue(this.usuarioData.email);
+      this.formUpdate.controls['cedula'].setValue(this.usuarioData.cedula);
+      this.formUpdate.controls['direccion'].setValue(this.usuarioData.direccion);
+      this.formUpdate.controls['categoria_id'].setValue(this.usuarioData.categoria_id);
+      this.formUpdate.controls['celular'].setValue(this.usuarioData.celular);
+
     });
   }
 }
