@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../servicios/usuario.service';
 import { Validators, FormBuilder } from '@angular/forms';
-
+declare var $;
 interface Usuarios {
   list:Array<ListUsuarios>;
   categorias?:Array<Categorias>;
@@ -46,6 +46,8 @@ export class UsuarioComponent implements OnInit {
   categoriasList:Categorias[];
   paisesList:Array<string>;
   inputBuscar:string;
+  usuarioData:ListUsuarios;
+  idUsusario:number;
 
   formInsert = this.fb.group({
     nombres: ['', [Validators.required]],
@@ -57,6 +59,20 @@ export class UsuarioComponent implements OnInit {
     celular: ['', [Validators.required]],
     categoria_id: ['', [Validators.required]]
   });
+
+
+  formUpdate = this.fb.group({
+    nombres: ['', [Validators.required]],
+    apellidos: ['', [Validators.required]],
+    pais: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    cedula: ['', [Validators.required]],
+    direccion: ['', [Validators.required]],
+    celular: ['', [Validators.required]],
+    categoria_id: ['', [Validators.required]]
+  });
+
+
   constructor(
     private usuarioServicio: UsuarioService,
     private fb: FormBuilder
@@ -75,9 +91,6 @@ export class UsuarioComponent implements OnInit {
     this.usuarioServicio.getUsuario().
     subscribe((result:Usuarios) =>{
       this.usuarioList = result.list
-      //this.categoriasList = result.categorias;
-      //this.paises = result.paises;
-
     });
   }
 
@@ -90,18 +103,53 @@ export class UsuarioComponent implements OnInit {
   }
 
   submit(){
-    //if (this.formInsert.valid){
+
       console.log(this.formInsert.value)
       this.usuarioServicio.guardar(this.formInsert.value).subscribe((result:responseApi) =>{
         console.log(result);
         if(result.code == 200){
           alert(result.mensaje)
+          this.getUsuarios()
+        }else{
+          alert(result.errors)
+        }
+        $('#modalNuevo').modal('hide')
+      });
+
+  }
+
+
+  submitUpdate(){
+
+    console.log(this.formInsert.value)
+    this.usuarioServicio.actualizar(this.formUpdate.value , this.idUsusario).subscribe((result:responseApi) =>{
+      console.log(result);
+      if(result.code == 200){
+        alert(result.mensaje)
+        this.getUsuarios()
+      }else{
+        alert(result.errors)
+      }
+
+      $('#modalEditar').modal('hide')
+    });
+
+}
+
+ eliminar(id:number){
+    let confirmar = confirm('Seguro desea eliminar');
+    if(confirmar){
+      this.usuarioServicio.eliminar(id).subscribe((result:responseApi) =>{
+        console.log(result);
+        if(result.code == 200){
+          alert(result.mensaje)
+          this.getUsuarios()
         }else{
           alert(result.errors)
         }
       });
-    //}
-  }
+    }
+ }
 
   buscar(){
     this.usuarioServicio.buscarUsuario(this.inputBuscar).
@@ -111,6 +159,15 @@ export class UsuarioComponent implements OnInit {
       //this.categoriasList = result.categorias;
       //this.paises = result.paises;
 
+    });
+  }
+
+
+  editar(id:number){
+    this.idUsusario = id;
+    this.usuarioServicio.getUsuarioId(id).subscribe((result:ListUsuarios) =>{
+      this.usuarioData = result;
+      console.log("nombe del usuario" , this.usuarioData.nombres)
     });
   }
 }

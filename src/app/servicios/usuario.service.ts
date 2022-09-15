@@ -29,4 +29,12 @@ export class UsuarioService {
   guardar(datos:object){
     return this.http.post(this.url + 'usuario/', datos);
   }
+
+  actualizar(datos:object,id:number){
+    return this.http.post(this.url + 'usuario/' + id, datos);
+  }
+
+  eliminar(id:number) {
+    return this.http.delete(this.url + 'usuario/' + id);
+  }
 }

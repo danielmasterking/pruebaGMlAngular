@@ -35,8 +35,8 @@
           <td>{{user.email}}</td>
           <td>{{user.categorias.nombreCategoria}}</td>
           <td>
-            <button class="btn btn-info">Editar</button>
-            <button class="btn btn-danger">Eliminar</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#modalEditar" (click) = "editar(user.id)">Editar</button>
+            <button class="btn btn-danger" (click) = 'eliminar(user.id)'>Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -61,7 +61,7 @@
       <div class="modal-body">
         <form [formGroup]="formInsert" (ngSubmit)="submit()">
           <label for="">Nombres : </label>
-          <input type="text" formControlName="nombres" class="form-control" required>
+          <input type="text" formControlName="nombres" class="form-control"  required >
 
           <label for="">Apellidos : </label>
           <input type="text" formControlName="apellidos" class="form-control" required>
@@ -84,11 +84,63 @@
             <option *ngFor="let paises of paisesList"  [value]="paises">{{paises}}</option>
           </select>
 
-          <table>
-            <tr *ngFor="let paises of paisesList">
-                <td>{{paises}}</td>
-            </tr>
-          </table>
+          <label for="">Categoria : </label>
+          <select formControlName="categoria_id" class="form-control" required>
+            <option *ngFor="let categoria of categoriasList"  [value]="categoria.id">{{categoria.nombreCategoria}}</option>
+          </select>
+
+          <button class="btn btn-primary" type="submit">Guardar</button>
+
+        </form>
+
+
+          <!-- <pre>Form values: {{myForm.value}}</pre> -->
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formUpdate" (ngSubmit)="submitUpdate()">
+          <label for="">Nombres : </label>
+          <input type="text" formControlName="nombres" class="form-control" value="" required>
+
+          <label for="">Apellidos : </label>
+          <input type="text" formControlName="apellidos" class="form-control" required>
+
+          <label for="">Cedula : </label>
+          <input type="text" formControlName="cedula" class="form-control" required readonly>
+
+          <label for="">Celular : </label>
+          <input type="number" formControlName="celular" class="form-control" required>
+
+          <label for="">Direccion : </label>
+          <input type="text" formControlName="direccion" class="form-control" required>
+
+          <label for="">Email : </label>
+          <input type="email" formControlName="email" class="form-control" required readonly>
+
+          <label for="">Pais : </label>
+          <select formControlName="pais" class="form-control" required>
+            <option *ngFor="let paises of paisesList"  [value]="paises">{{paises}}</option>
+          </select>
+
+
 
           <label for="">Categoria : </label>
           <select formControlName="categoria_id" class="form-control" required>
@@ -111,4 +163,3 @@
 </div>
 
 
-<pre>{{ categoriasList }}</pre>
